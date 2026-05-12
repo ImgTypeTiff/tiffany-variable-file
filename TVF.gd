@@ -45,7 +45,6 @@ func _ensure_parent_dirs(path:String):
 		make_dir(cur)
 
 func add_bytes(path:String, type:String, data:PackedByteArray):
-
 	path = _normalize_path(path,false)
 	_ensure_parent_dirs(path)
 	index[path] = {"kind":"file","type":type,"data":data,"offset":-1,"size":data.size(),"created":_now(),"modified":_now()}
@@ -180,13 +179,16 @@ func exists(path:String)->bool:
 	var dir_path = _normalize_path(path, true)
 	return index.has(fp) or index.has(dir_path)
 
+
 func is_dir(path:String)->bool:
 	path = _normalize_path(path,true)
 	return index.has(path) and index[path]['kind']=='dir'
 
+
 func is_file(path:String)->bool:
 	path = _normalize_path(path,false)
 	return index.has(path) and index[path]['kind']=='file'
+
 
 func list_dir(path:String='')->Array[String]:
 	path = _normalize_path(path,true)
@@ -201,6 +203,7 @@ func list_dir(path:String='')->Array[String]:
 				child = dir_key
 			if not out.has(child): out.append(child)
 	return out
+
 
 func _write_string(f,t): 
 	var b=t.to_utf8_buffer()
